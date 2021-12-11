@@ -271,26 +271,46 @@ $(document).ready(function () {
 <p>If you use any resources for helping you remove stopwords. name the source and link to it.</p>
 <pre class="r"><code>#packages needed
 library(janeaustenr)
-library(tidyverse)
 library(ggplot2)
-library(stopwords)
-library(tm)
 library(plotly)
-library(qdap)
 library(hpackedbubble)
-library(webshot)</code></pre>
-<pre class="r"><code>emma1 &lt;- freq_terms( janeaustenr::emma,10, at.least=5, tm::stopwords(&quot;english&quot;))%&gt;%  mutate( book = &quot;emma&quot;)           
-pride1 &lt;- freq_terms( janeaustenr::prideprejudice,10, at.least=5, tm::stopwords(&quot;english&quot;))%&gt;%  mutate( book = &quot;pride&quot;)
-mans1 &lt;-  freq_terms( janeaustenr::mansfieldpark,10, at.least=5, tm::stopwords(&quot;english&quot;))%&gt;%  mutate( book = &quot;mans&quot;)
-sense1 &lt;-  freq_terms( janeaustenr::sensesensibility,10, at.least=5, tm::stopwords(&quot;english&quot;))%&gt;%  mutate( book = &quot;sense&quot;)
-pride1 &lt;- freq_terms( janeaustenr::prideprejudice,10, at.least=5, tm::stopwords(&quot;english&quot;))%&gt;%  mutate( book = &quot;pride&quot;)
-pers1 &lt;- freq_terms( janeaustenr::persuasion,10, at.least=5, tm::stopwords(&quot;english&quot;))%&gt;%  mutate( book = &quot;persuasion&quot;)
-austen1 &lt;- bind_rows(emma1,pride1,mans1,sense1,pride1,pers1)
+library(webshot)
+library(tidyverse)
+library(qdap)</code></pre>
+<pre><code>## Loading required package: qdapDictionaries</code></pre>
+<pre><code>## Loading required package: qdapRegex</code></pre>
+<pre><code>## 
+## Attaching package: &#39;qdapRegex&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     explain</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     %+%</code></pre>
+<pre><code>## Loading required package: qdapTools</code></pre>
+<pre><code>## 
+## Attaching package: &#39;qdapTools&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     id</code></pre>
+<pre><code>## Loading required package: RColorBrewer</code></pre>
+<pre><code>## 
+## Attaching package: &#39;qdap&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     Filter, proportions</code></pre>
+<pre class="r"><code>df &lt;- janeaustenr::austen_books() %&gt;% 
+  nest(data = text) %&gt;% 
+  mutate(freq = map(data, 
+                    ~ qdap::freq_terms(.x$text, 10,
+                                       at.least = 5,                                        tm::stopwords(&quot;english&quot;))))
 
-austen1 &lt;- as_tibble(austen1)
+df1 &lt;- df %&gt;%
+  select(-data) %&gt;% # assuming you don&#39;t need this column any longer
+  unnest(freq)
 
 
-bubplot &lt;- hpackedbubble(austen1$book, austen1$WORD, austen1$FREQ,
+bubplot &lt;- hpackedbubble(df1$book, df1$WORD, df1$FREQ,
               title = &quot;Common words in Jane Austens books&quot;,
               pointFormat = &quot;&lt;b&gt;{point.name}:&lt;/b&gt; {point.y} words&lt;sub&gt;&quot;,
               dataLabelsFilter = 100,
@@ -305,8 +325,8 @@ bubplot &lt;- hpackedbubble(austen1$book, austen1$WORD, austen1$FREQ,
               width = &quot;100%&quot;)
 
 bubplot</code></pre>
-<div id="htmlwidget-346ecd26d9a236dac76b" style="width:100%;height:480px;" class="hpackedbubble html-widget"></div>
-<script type="application/json" data-for="htmlwidget-346ecd26d9a236dac76b">{"x":{"cat":["emma","emma","emma","emma","emma","emma","emma","emma","emma","emma","pride","pride","pride","pride","pride","pride","pride","pride","pride","pride","mans","mans","mans","mans","mans","mans","mans","mans","mans","mans","sense","sense","sense","sense","sense","sense","sense","sense","sense","sense","pride","pride","pride","pride","pride","pride","pride","pride","pride","pride","persuasion","persuasion","persuasion","persuasion","persuasion","persuasion","persuasion","persuasion","persuasion","persuasion"],"name":["every","harriet","thing","think","weston","little","never","knightley","might","elton","elizabeth","darcy","bennet","bingley","never","though","think","might","every","little","fanny","crawford","edmund","think","might","little","nothing","thomas","never","without","elinor","marianne","every","dashwood","might","sister","though","edward","think","mother","elizabeth","darcy","bennet","bingley","never","though","think","might","every","little","captain","elliot","wentworth","little","might","never","charles","think","nothing","great"],"value":[420,385,383,381,377,360,344,329,325,314,594,371,292,256,220,220,211,200,198,189,800,492,361,351,324,309,299,288,279,270,616,488,373,224,215,213,213,210,205,201,594,371,292,256,220,220,211,200,198,189,303,253,190,176,166,154,152,149,138,129],"theme":"sunset","title":"Common words in Jane Austens books","titleAlign":"center","titleSize":"20px","titleColor":"#333333","subtitle":"","subtitleAlign":"center","subtitleSize":"","subtitleColor":"#666666","pointFormat":"<b>{point.name}:<\/b> {point.y} words<sub>","split":1,"packedbubbleMinSize":"50%","packedbubbleMaxSize":"300%","packedbubbleZMin":0,"packedbubbleZmax":10000,"gravitational":0.02,"seriesInteraction":1,"dragBetweenSeries":0,"parentNodeLimit":1,"dataLabels":1,"dataLabelsformat":"{point.name}","dataLabelsFilter":100,"dataLabelsColor":"black"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-290e0b681c636fe28baa" style="width:100%;height:480px;" class="hpackedbubble html-widget"></div>
+<script type="application/json" data-for="htmlwidget-290e0b681c636fe28baa">{"x":{"cat":["Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Emma","Emma","Emma","Emma","Emma","Emma","Emma","Emma","Emma","Emma","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion"],"name":["elinor","marianne","every","dashwood","might","sister","though","edward","think","mother","elizabeth","darcy","bennet","bingley","never","though","think","might","every","little","fanny","crawford","edmund","think","might","little","nothing","thomas","never","without","every","harriet","thing","think","weston","little","never","knightley","might","elton","catherine","tilney","never","think","might","every","general","isabella","thorpe","morland","captain","elliot","wentworth","little","might","never","charles","think","nothing","great"],"value":[616,488,373,224,215,213,213,210,205,201,594,371,292,256,220,220,211,200,198,189,800,492,361,351,324,309,299,288,279,270,420,385,383,381,377,360,344,329,325,314,426,193,158,138,137,130,129,129,125,122,303,253,190,176,166,154,152,149,138,129],"theme":"sunset","title":"Common words in Jane Austens books","titleAlign":"center","titleSize":"20px","titleColor":"#333333","subtitle":"","subtitleAlign":"center","subtitleSize":"","subtitleColor":"#666666","pointFormat":"<b>{point.name}:<\/b> {point.y} words<sub>","split":1,"packedbubbleMinSize":"50%","packedbubbleMaxSize":"300%","packedbubbleZMin":0,"packedbubbleZmax":10000,"gravitational":0.02,"seriesInteraction":1,"dragBetweenSeries":0,"parentNodeLimit":1,"dataLabels":1,"dataLabelsformat":"{point.name}","dataLabelsFilter":100,"dataLabelsColor":"black"},"evals":[],"jsHooks":[]}</script>
 </div>
 
 
