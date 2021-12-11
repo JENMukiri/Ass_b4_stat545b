@@ -3,7 +3,7 @@
     "path": "~/Documents/Projects/Ass_b4_stat545b/_site.yml",
     "project_path": "_site.yml",
     "type": "yaml",
-    "hash": "1394943019",
+    "hash": "3921107960",
     "contents": "",
     "dirty": false,
     "created": 1639191993010.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "8,0",
+        "cursorPosition": "8,15",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1639193442,
+    "lastKnownWriteTime": 1639193814,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1639193442955,
+    "last_content_update": 1639193814852,
     "read_only": false,
     "read_only_alternatives": []
 }
