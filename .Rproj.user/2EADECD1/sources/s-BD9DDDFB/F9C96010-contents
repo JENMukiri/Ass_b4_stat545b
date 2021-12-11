@@ -1,8 +1,7 @@
-name: "my-website"
+name: "Stat 545B Assignment 4"
 navbar:
-  title: "My Website"
+  title: "Option A"
   left:
-    - text: "Home"
+    - text: "Stat 545B Assignment 4"
       href: index.html
-    - text: "About"
-      href: about.html
+output_dir: "."
