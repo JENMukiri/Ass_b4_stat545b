@@ -55,5 +55,7 @@ bubplot <- hpackedbubble(austen1$book, austen1$WORD, austen1$FREQ,
               parentNodeLimit = 1,
               dragBetweenSeries = 0,
               width = "100%")
+
+bubplot
 ```
 

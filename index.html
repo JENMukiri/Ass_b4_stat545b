@@ -32,6 +32,9 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/hpackedbubble-7.1.2/oldie.js"></script>
+<script src="site_libs/hpackedbubble-binding-0.1.0/hpackedbubble.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -237,15 +240,12 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">My Website</a>
+      <a class="navbar-brand" href="index.html">Option A</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">Stat 545B Assignment 4</a>
-</li>
-<li>
-  <a href="about.html">Option A</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -271,77 +271,14 @@ $(document).ready(function () {
 <p>If you use any resources for helping you remove stopwords. name the source and link to it.</p>
 <pre class="r"><code>#packages needed
 library(janeaustenr)
-library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-## ✓ tibble  3.1.6     ✓ dplyr   1.0.7
-## ✓ tidyr   1.1.4     ✓ stringr 1.4.0
-## ✓ readr   2.1.1     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(ggplot2)
+library(tidyverse)
+library(ggplot2)
 library(stopwords)
-library(tm)</code></pre>
-<pre><code>## Loading required package: NLP</code></pre>
-<pre><code>## 
-## Attaching package: &#39;NLP&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
-## 
-##     annotate</code></pre>
-<pre><code>## 
-## Attaching package: &#39;tm&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:stopwords&#39;:
-## 
-##     stopwords</code></pre>
-<pre class="r"><code>library(plotly)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;plotly&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
-## 
-##     last_plot</code></pre>
-<pre><code>## The following object is masked from &#39;package:stats&#39;:
-## 
-##     filter</code></pre>
-<pre><code>## The following object is masked from &#39;package:graphics&#39;:
-## 
-##     layout</code></pre>
-<pre class="r"><code>library(qdap)</code></pre>
-<pre><code>## Loading required package: qdapDictionaries</code></pre>
-<pre><code>## Loading required package: qdapRegex</code></pre>
-<pre><code>## 
-## Attaching package: &#39;qdapRegex&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     explain</code></pre>
-<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
-## 
-##     %+%</code></pre>
-<pre><code>## Loading required package: qdapTools</code></pre>
-<pre><code>## 
-## Attaching package: &#39;qdapTools&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     id</code></pre>
-<pre><code>## Loading required package: RColorBrewer</code></pre>
-<pre><code>## 
-## Attaching package: &#39;qdap&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:tm&#39;:
-## 
-##     as.DocumentTermMatrix, as.TermDocumentMatrix</code></pre>
-<pre><code>## The following object is masked from &#39;package:NLP&#39;:
-## 
-##     ngrams</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     Filter, proportions</code></pre>
-<pre class="r"><code>library(hpackedbubble)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;hpackedbubble&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:datasets&#39;:
-## 
-##     CO2</code></pre>
-<pre class="r"><code>library(webshot)</code></pre>
+library(tm)
+library(plotly)
+library(qdap)
+library(hpackedbubble)
+library(webshot)</code></pre>
 <pre class="r"><code>emma1 &lt;- freq_terms( janeaustenr::emma,10, at.least=5, tm::stopwords(&quot;english&quot;))%&gt;%  mutate( book = &quot;emma&quot;)           
 pride1 &lt;- freq_terms( janeaustenr::prideprejudice,10, at.least=5, tm::stopwords(&quot;english&quot;))%&gt;%  mutate( book = &quot;pride&quot;)
 mans1 &lt;-  freq_terms( janeaustenr::mansfieldpark,10, at.least=5, tm::stopwords(&quot;english&quot;))%&gt;%  mutate( book = &quot;mans&quot;)
@@ -365,7 +302,11 @@ bubplot &lt;- hpackedbubble(austen1$book, austen1$WORD, austen1$FREQ,
               gravitational = 0.02,
               parentNodeLimit = 1,
               dragBetweenSeries = 0,
-              width = &quot;100%&quot;)</code></pre>
+              width = &quot;100%&quot;)
+
+bubplot</code></pre>
+<div id="htmlwidget-346ecd26d9a236dac76b" style="width:100%;height:480px;" class="hpackedbubble html-widget"></div>
+<script type="application/json" data-for="htmlwidget-346ecd26d9a236dac76b">{"x":{"cat":["emma","emma","emma","emma","emma","emma","emma","emma","emma","emma","pride","pride","pride","pride","pride","pride","pride","pride","pride","pride","mans","mans","mans","mans","mans","mans","mans","mans","mans","mans","sense","sense","sense","sense","sense","sense","sense","sense","sense","sense","pride","pride","pride","pride","pride","pride","pride","pride","pride","pride","persuasion","persuasion","persuasion","persuasion","persuasion","persuasion","persuasion","persuasion","persuasion","persuasion"],"name":["every","harriet","thing","think","weston","little","never","knightley","might","elton","elizabeth","darcy","bennet","bingley","never","though","think","might","every","little","fanny","crawford","edmund","think","might","little","nothing","thomas","never","without","elinor","marianne","every","dashwood","might","sister","though","edward","think","mother","elizabeth","darcy","bennet","bingley","never","though","think","might","every","little","captain","elliot","wentworth","little","might","never","charles","think","nothing","great"],"value":[420,385,383,381,377,360,344,329,325,314,594,371,292,256,220,220,211,200,198,189,800,492,361,351,324,309,299,288,279,270,616,488,373,224,215,213,213,210,205,201,594,371,292,256,220,220,211,200,198,189,303,253,190,176,166,154,152,149,138,129],"theme":"sunset","title":"Common words in Jane Austens books","titleAlign":"center","titleSize":"20px","titleColor":"#333333","subtitle":"","subtitleAlign":"center","subtitleSize":"","subtitleColor":"#666666","pointFormat":"<b>{point.name}:<\/b> {point.y} words<sub>","split":1,"packedbubbleMinSize":"50%","packedbubbleMaxSize":"300%","packedbubbleZMin":0,"packedbubbleZmax":10000,"gravitational":0.02,"seriesInteraction":1,"dragBetweenSeries":0,"parentNodeLimit":1,"dataLabels":1,"dataLabelsformat":"{point.name}","dataLabelsFilter":100,"dataLabelsColor":"black"},"evals":[],"jsHooks":[]}</script>
 </div>
 
 
