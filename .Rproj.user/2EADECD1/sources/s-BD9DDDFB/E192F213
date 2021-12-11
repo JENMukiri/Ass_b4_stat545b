@@ -3,7 +3,7 @@
     "path": "~/Documents/Projects/Ass_b4_stat545b/index.Rmd",
     "project_path": "index.Rmd",
     "type": "r_markdown",
-    "hash": "2667681045",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1639191993589.0,
@@ -12,8 +12,8 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "44,11",
-        "scrollLine": "39"
+        "cursorPosition": "1,16",
+        "scrollLine": "0"
     },
     "folds": "",
     "lastKnownWriteTime": 1639192825,
