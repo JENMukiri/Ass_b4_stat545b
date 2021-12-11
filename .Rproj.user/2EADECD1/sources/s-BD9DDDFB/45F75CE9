@@ -3,7 +3,7 @@
     "path": "~/Documents/Projects/Ass_b4_stat545b/about.Rmd",
     "project_path": "about.Rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "2752208640",
     "contents": "",
     "dirty": false,
     "created": 1639191993185.0,
@@ -11,14 +11,16 @@
     "relative_order": 2,
     "properties": {
         "source_window_id": "",
-        "Source": "Source"
+        "Source": "Source",
+        "cursorPosition": "4,64",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1639191990,
+    "lastKnownWriteTime": 1639192597,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1639191990,
+    "last_content_update": 1639192597629,
     "read_only": false,
     "read_only_alternatives": []
 }
