@@ -11,12 +11,12 @@
 
 
 
-<title>Option A</title>
+<title>Option A: Strings and functional programming in R</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -30,8 +30,6 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
@@ -53,17 +51,101 @@
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -248,7 +330,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Option A</a>
+      <a class="navbar-brand" href="index.html">STAT 545B</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -267,58 +349,53 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Option A</h1>
+<h1 class="title toc-ignore">Option A: Strings and functional programming in R</h1>
 
 </div>
 
 
-<p>This is assignment B-4 to complete the stat 545B class</p>
-<p>Before starting any analysis it is important to download packages</p>
-<pre class="r"><code>#packages needed
-library(janeaustenr)
-library(ggplot2)
-library(plotly)
-library(hpackedbubble)
-library(webshot)
-library(tidyverse)
-#this package needs rJava so make sure you have installed this pacakge
-library(qdap)
-library(kableExtra)
-library(ggiraphExtra)</code></pre>
+<p>This is my deliverable for assignment B-4. My tasks are to:</p>
+<ol start="0" style="list-style-type: decimal">
+<li>Submit a Tidy repository on github (25 points)</li>
+<li>Complete Exercise 1 (37.5 points)</li>
+<li>Complete Exercise 3 (37.5 points)</li>
+</ol>
+<p>Before starting on this task, I first need to download and load the appropriate packages</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#packages needed</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janeaustenr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hpackedbubble)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(webshot) <span class="co">#this package is needed with hpackadbubble</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qdap)<span class="co">#this package needs rJava so make sure you have installed this package</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tm)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span></code></pre></div>
 <div id="exercise-1-37.5-points" class="section level2">
 <h2>Exercise 1 (37.5 points)</h2>
-<p>Take a Jane Austen book contained in the janeaustenr package,</p>
-<p>Make a plot of the most common words in the book, removing “stop words” of your choosing (words like “the”, “a”, etc.) or stopwords from a pre-defined source, like the stopwords package or tidytext::stop_words.</p>
-<p>If you use any resources for helping you remove stopwords. name the source and link to it.</p>
-<pre class="r"><code>df &lt;- janeaustenr::austen_books() %&gt;% 
-  nest(data = text) %&gt;% 
-  mutate(freq = map(data, 
-                    ~ qdap::freq_terms(.x$text, 10,
-                                       at.least = 5,                                        tm::stopwords(&quot;english&quot;))))
-
-df1 &lt;- df %&gt;%
-  dplyr::select(-data) %&gt;% # assuming you don&#39;t need this column any longer
-  unnest(freq)
-df1 </code></pre>
-<pre><code>## # A tibble: 60 × 3
-##    book                WORD      FREQ
-##    &lt;fct&gt;               &lt;chr&gt;    &lt;dbl&gt;
-##  1 Sense &amp; Sensibility elinor     616
-##  2 Sense &amp; Sensibility marianne   488
-##  3 Sense &amp; Sensibility every      373
-##  4 Sense &amp; Sensibility dashwood   224
-##  5 Sense &amp; Sensibility might      215
-##  6 Sense &amp; Sensibility sister     213
-##  7 Sense &amp; Sensibility though     213
-##  8 Sense &amp; Sensibility edward     210
-##  9 Sense &amp; Sensibility think      205
-## 10 Sense &amp; Sensibility mother     201
-## # … with 50 more rows</code></pre>
-<pre class="r"><code>kbl1 &lt;- kbl(df1) %&gt;%
-  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;))%&gt;%
-  scroll_box(width = &quot;500px&quot;, height = &quot;500px&quot;)
-
-kbl1</code></pre>
+<p>For this exercises I need to use the janeaustenr package and make a plot with the most common words in the book removing “stop words” of your choosing (words like “the”, “a”, etc.)</p>
+<p>For this exercise I decided to look at all the books and not just one.</p>
+<p>I then mapped through the books using the freq_terms function from the <a href="https://github.com/trinker/qdap">qdap</a> package. This making the code more efficient and clean.</p>
+<p>I generated an interactive table and a bubble plot for the user to have a look at all the common words,removing all stopwords using the <a href="https://www.rdocumentation.org/packages/tm/versions/0.7-8">tm</a> package that have at least 5 characters and appear 10 times in each book.</p>
+<p>The table and bubble plot are interactive. The bubble plot groups the words per book and these appear in circles/bubbles and the different colors reprsent the different books.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load the books from the janeaustenrpackage and create an object know as df</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> janeaustenr<span class="sc">::</span><span class="fu">austen_books</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>(<span class="at">data =</span> text) <span class="sc">%&gt;%</span> <span class="co">#nest data to allow for looping</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> <span class="fu">map</span>(data, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                    <span class="sc">~</span> qdap<span class="sc">::</span><span class="fu">freq_terms</span>(.x<span class="sc">$</span>text, <span class="dv">10</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">at.least =</span> <span class="dv">5</span>, tm<span class="sc">::</span><span class="fu">stopwords</span>(<span class="st">&quot;english&quot;</span>)))) <span class="co"># mapping the text list through the freq_terms function, looking for words that were 5 characters that was used at least 10 times that did not include &quot;English&quot; stopwords, these were removed tm package</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>data) <span class="sc">%&gt;%</span> <span class="co"># removing column</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(freq)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#interactive table using kableExtra package</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>kbl1 <span class="ot">&lt;-</span> <span class="fu">kbl</span>(df1) <span class="sc">%&gt;%</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">&quot;500px&quot;</span>, <span class="at">height =</span> <span class="st">&quot;500px&quot;</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>kbl1</span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:500px; ">
 <table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
 <thead>
@@ -998,39 +1075,60 @@ great
 </tbody>
 </table>
 </div>
-<pre class="r"><code>bubplot &lt;- hpackedbubble(df1$book, df1$WORD, df1$FREQ,
-              title = &quot;Common words in Jane Austens books&quot;,
-              pointFormat = &quot;&lt;b&gt;{point.name}:&lt;/b&gt; {point.y} words&lt;sub&gt;&quot;,
-              dataLabelsFilter = 100,
-              packedbubbleMinSize = &quot;10%&quot;,
-              packedbubbleMaxSize = &quot;300%&quot;,
-              theme = &quot;sunset&quot;,
-              packedbubbleZMin = 0,
-              packedbubbleZmax = 10000, split = 0,
-              gravitational = 0.02,
-              parentNodeLimit = 1,
-              dragBetweenSeries = 0,
-              width = &quot;100%&quot;)
-
-bubplot</code></pre>
-<div id="htmlwidget-72faa0bed9911d324ab5" style="width:100%;height:480px;" class="hpackedbubble html-widget"></div>
-<script type="application/json" data-for="htmlwidget-72faa0bed9911d324ab5">{"x":{"cat":["Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Emma","Emma","Emma","Emma","Emma","Emma","Emma","Emma","Emma","Emma","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion"],"name":["elinor","marianne","every","dashwood","might","sister","though","edward","think","mother","elizabeth","darcy","bennet","bingley","never","though","think","might","every","little","fanny","crawford","edmund","think","might","little","nothing","thomas","never","without","every","harriet","thing","think","weston","little","never","knightley","might","elton","catherine","tilney","never","think","might","every","general","isabella","thorpe","morland","captain","elliot","wentworth","little","might","never","charles","think","nothing","great"],"value":[616,488,373,224,215,213,213,210,205,201,594,371,292,256,220,220,211,200,198,189,800,492,361,351,324,309,299,288,279,270,420,385,383,381,377,360,344,329,325,314,426,193,158,138,137,130,129,129,125,122,303,253,190,176,166,154,152,149,138,129],"theme":"sunset","title":"Common words in Jane Austens books","titleAlign":"center","titleSize":"20px","titleColor":"#333333","subtitle":"","subtitleAlign":"center","subtitleSize":"","subtitleColor":"#666666","pointFormat":"<b>{point.name}:<\/b> {point.y} words<sub>","split":0,"packedbubbleMinSize":"10%","packedbubbleMaxSize":"300%","packedbubbleZMin":0,"packedbubbleZmax":10000,"gravitational":0.02,"seriesInteraction":1,"dragBetweenSeries":0,"parentNodeLimit":1,"dataLabels":1,"dataLabelsformat":"{point.name}","dataLabelsFilter":100,"dataLabelsColor":"black"},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## this was from the hpackedbubble package using the dataframe from the first section to create an interactive display of results</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>bubplot <span class="ot">&lt;-</span> <span class="fu">hpackedbubble</span>(df1<span class="sc">$</span>book, df1<span class="sc">$</span>WORD, df1<span class="sc">$</span>FREQ,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">title =</span> <span class="st">&quot;Common words in Jane Austens books&quot;</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">pointFormat =</span> <span class="st">&quot;&lt;b&gt;{point.name}:&lt;/b&gt; {point.y} words&lt;sub&gt;&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">dataLabelsFilter =</span> <span class="dv">100</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">packedbubbleMinSize =</span> <span class="st">&quot;10%&quot;</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">packedbubbleMaxSize =</span> <span class="st">&quot;300%&quot;</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">theme =</span> <span class="st">&quot;sunset&quot;</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">packedbubbleZMin =</span> <span class="dv">0</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">packedbubbleZmax =</span> <span class="dv">3000</span>, <span class="at">split =</span> <span class="dv">1</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">gravitational =</span> <span class="fl">0.02</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">parentNodeLimit =</span> <span class="dv">1</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">dragBetweenSeries =</span> <span class="dv">0</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>bubplot</span></code></pre></div>
+<div id="htmlwidget-86060ce4edfe029629dc" style="width:100%;height:480px;" class="hpackedbubble html-widget"></div>
+<script type="application/json" data-for="htmlwidget-86060ce4edfe029629dc">{"x":{"cat":["Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Sense & Sensibility","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Pride & Prejudice","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Mansfield Park","Emma","Emma","Emma","Emma","Emma","Emma","Emma","Emma","Emma","Emma","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Northanger Abbey","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion","Persuasion"],"name":["elinor","marianne","every","dashwood","might","sister","though","edward","think","mother","elizabeth","darcy","bennet","bingley","never","though","think","might","every","little","fanny","crawford","edmund","think","might","little","nothing","thomas","never","without","every","harriet","thing","think","weston","little","never","knightley","might","elton","catherine","tilney","never","think","might","every","general","isabella","thorpe","morland","captain","elliot","wentworth","little","might","never","charles","think","nothing","great"],"value":[616,488,373,224,215,213,213,210,205,201,594,371,292,256,220,220,211,200,198,189,800,492,361,351,324,309,299,288,279,270,420,385,383,381,377,360,344,329,325,314,426,193,158,138,137,130,129,129,125,122,303,253,190,176,166,154,152,149,138,129],"theme":"sunset","title":"Common words in Jane Austens books","titleAlign":"center","titleSize":"20px","titleColor":"#333333","subtitle":"","subtitleAlign":"center","subtitleSize":"","subtitleColor":"#666666","pointFormat":"<b>{point.name}:<\/b> {point.y} words<sub>","split":1,"packedbubbleMinSize":"10%","packedbubbleMaxSize":"300%","packedbubbleZMin":0,"packedbubbleZmax":3000,"gravitational":0.02,"seriesInteraction":1,"dragBetweenSeries":0,"parentNodeLimit":1,"dataLabels":1,"dataLabelsformat":"{point.name}","dataLabelsFilter":100,"dataLabelsColor":"black"},"evals":[],"jsHooks":[]}</script>
+<p>The code chunk below gives a longer way of doing the same analysis if the use of stringr needed to be demonstrated.It is heavier and does slow R when running.However produces similar results</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#tidy_books &lt;- austen_books() %&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  group_by(book) %&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  mutate(</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#    linenumber = row_number(),</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    chapter = cumsum(str_detect(text, </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                               regex(&quot;^chapter [\\divxlc]&quot;, </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#                                      ignore_case = TRUE)))) %&gt;%</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#  ungroup() %&gt;%</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#  unnest_tokens(word, text)</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#tidy_books %&gt;%</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#  filter(str_count(word) &gt;= 5) %&gt;%  # similar to the at.least = 5</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#  anti_join(stop_words) %&gt;%   # similar to tm::stopwords()</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#  group_by(book) %&gt;% </span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#  count(word) %&gt;% </span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a> <span class="co"># arrange(book, desc(n))</span></span></code></pre></div>
 </div>
-<div id="exercise-2-37.5-points" class="section level2">
-<h2>Exercise 2 (37.5 points)</h2>
-<p>For this exercise, you’ll be evaluating a model that’s fit separately for each group in some dataset. You should fit these models with some question in mind.</p>
-<pre class="r"><code>library(MASS)
-
-bos &lt;- tibble(var = names(Boston)[-1]) %&gt;% 
-  mutate(lm = map(var, ~lm(paste(&quot;crim ~&quot;,.), data = Boston) %&gt;% tidy)) %&gt;%
-  unnest() </code></pre>
-<pre><code>## Warning: `cols` is now required when using unnest().
-## Please use `cols = c(lm)`</code></pre>
-<pre class="r"><code>bos1&lt;- kbl(bos) %&gt;%
-  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;))%&gt;%
-  scroll_box(width = &quot;500px&quot;, height = &quot;500px&quot;)
-
-bos1</code></pre>
+<div id="exercise-3-37.5-points" class="section level2">
+<h2>Exercise 3 (37.5 points)</h2>
+<p>For this exercise,I was evaluating model a that’s fit separately for each group in the Boston data set found in the MASS package.</p>
+<p>The question I I had in mind is:</p>
+<p>1.To fit a simple linear regression model <code>crim</code> against the other predictors in the data set</p>
+<p>From the results below some of the key take aways are: -varaibles are predictors for crime in Boston apart from char variable, according to analysis.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#creating a new list column with the column model added to the tibble </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>bos <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">var =</span> <span class="fu">names</span>(Boston)[<span class="sc">-</span><span class="dv">1</span>]) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lm =</span> <span class="fu">map</span>(var, <span class="sc">~</span><span class="fu">lm</span>(<span class="fu">paste</span>(<span class="st">&quot;crim ~&quot;</span>,.), <span class="at">data =</span> Boston) <span class="sc">%&gt;%</span> tidy)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(lm) </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#interactive tablle to show the results from the liner regression</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>bos1<span class="ot">&lt;-</span> <span class="fu">kbl</span>(bos) <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">&quot;500px&quot;</span>, <span class="at">height =</span> <span class="st">&quot;500px&quot;</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>bos1</span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:500px; ">
 <table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;">
 <thead>
@@ -1579,14 +1677,18 @@ medv
 </tbody>
 </table>
 </div>
-<pre class="r"><code>p1 &lt;- ggplot(bos,aes(statistic,estimate, color = term))+
-  geom_point()+
-  theme_classic()
-
-
-ggplotly(p1)</code></pre>
-<div id="htmlwidget-f781f9e3f9ddb4cb72d8" style="width:672px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f781f9e3f9ddb4cb72d8">{"x":{"data":[{"x":[10.6747458813448,-3.09300821443869,9.45302119836252,-8.07299180584545,6.08766865042672,-4.00208420348085,13.0056107206188,-5.15734855024822,-10.4538746187593,-5.60705735131096,11.6091571935607,-4.80071818349351,12.6275664859523],"y":[4.45369375508638,-2.0637426063278,3.74444683651805,-13.7198823099743,20.4818041777924,-3.77790631796827,9.49926164655728,-2.28715944831038,-8.52836909306913,-17.6469334724482,16.5535292242067,-3.33053805714505,11.7965357502219],"text":["statistic:  10.674746<br />estimate:   4.45369376<br />term: (Intercept)","statistic:  -3.093008<br />estimate:  -2.06374261<br />term: (Intercept)","statistic:   9.453021<br />estimate:   3.74444684<br />term: (Intercept)","statistic:  -8.072992<br />estimate: -13.71988231<br />term: (Intercept)","statistic:   6.087669<br />estimate:  20.48180418<br />term: (Intercept)","statistic:  -4.002084<br />estimate:  -3.77790632<br />term: (Intercept)","statistic:  13.005611<br />estimate:   9.49926165<br />term: (Intercept)","statistic:  -5.157349<br />estimate:  -2.28715945<br />term: (Intercept)","statistic: -10.453875<br />estimate:  -8.52836909<br />term: (Intercept)","statistic:  -5.607057<br />estimate: -17.64693347<br />term: (Intercept)","statistic:  11.609157<br />estimate:  16.55352922<br />term: (Intercept)","statistic:  -4.800718<br />estimate:  -3.33053806<br />term: (Intercept)","statistic:  12.627566<br />estimate:  11.79653575<br />term: (Intercept)"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"(Intercept)","legendgroup":"(Intercept)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[8.46282468262108],"y":[0.107786227139533],"text":"statistic:   8.462825<br />estimate:   0.10778623<br />term: age","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(227,137,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(227,137,0,1)"}},"hoveron":"points","name":"age","legendgroup":"age","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-9.36695058956449],"y":[-0.0362796405673307],"text":"statistic:  -9.366951<br />estimate:  -0.03627964<br />term: black","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(196,154,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(196,154,0,1)"}},"hoveron":"points","name":"black","legendgroup":"black","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-1.25672737007522],"y":[-1.89277655080378],"text":"statistic:  -1.256727<br />estimate:  -1.89277655<br />term: chas","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(153,168,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(153,168,0,1)"}},"hoveron":"points","name":"chas","legendgroup":"chas","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-9.21345807307416],"y":[-1.5509016824101],"text":"statistic:  -9.213458<br />estimate:  -1.55090168<br />term: dis","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(83,180,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(83,180,0,1)"}},"hoveron":"points","name":"dis","legendgroup":"dis","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[9.99084765656433],"y":[0.509776331104228],"text":"statistic:   9.990848<br />estimate:   0.50977633<br />term: indus","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,188,86,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,188,86,1)"}},"hoveron":"points","name":"indus","legendgroup":"indus","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[11.490653795623],"y":[0.548804782062398],"text":"statistic:  11.490654<br />estimate:   0.54880478<br />term: lstat","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,192,148,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,192,148,1)"}},"hoveron":"points","name":"lstat","legendgroup":"lstat","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-9.45971007788721],"y":[-0.363159922257603],"text":"statistic:  -9.459710<br />estimate:  -0.36315992<br />term: medv","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)"}},"hoveron":"points","name":"medv","legendgroup":"medv","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[10.4189888721733],"y":[31.2485312011229],"text":"statistic:  10.418989<br />estimate:  31.24853120<br />term: nox","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,182,235,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,182,235,1)"}},"hoveron":"points","name":"nox","legendgroup":"nox","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6.80143023552016],"y":[1.15198278707059],"text":"statistic:   6.801430<br />estimate:   1.15198279<br />term: ptratio","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(6,164,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(6,164,255,1)"}},"hoveron":"points","name":"ptratio","legendgroup":"ptratio","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[17.998199143111],"y":[0.617910927327201],"text":"statistic:  17.998199<br />estimate:   0.61791093<br />term: rad","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(165,138,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(165,138,255,1)"}},"hoveron":"points","name":"rad","legendgroup":"rad","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-5.04481948476145],"y":[-2.68405122411395],"text":"statistic:  -5.044819<br />estimate:  -2.68405122<br />term: rm","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(223,112,248,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(223,112,248,1)"}},"hoveron":"points","name":"rm","legendgroup":"rm","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[16.0993880125883],"y":[0.0297422528227653],"text":"statistic:  16.099388<br />estimate:   0.02974225<br />term: tax","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(251,97,215,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(251,97,215,1)"}},"hoveron":"points","name":"tax","legendgroup":"tax","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-4.59377647730262],"y":[-0.073934977404123],"text":"statistic:  -4.593776<br />estimate:  -0.07393498<br />term: zn","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(255,102,168,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(255,102,168,1)"}},"hoveron":"points","name":"zn","legendgroup":"zn","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-11.8764783068528,19.4208028312045],"tickmode":"array","ticktext":["-10","0","10"],"tickvals":[-10,0,10],"categoryorder":"array","categoryarray":["-10","0","10"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"statistic","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-20.0917067061267,33.6933044348014],"tickmode":"array","ticktext":["-20","-10","0","10","20","30"],"tickvals":[-20,-10,0,10,20,30],"categoryorder":"array","categoryarray":["-20","-10","0","10","20","30"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"estimate","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"term","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"df86184512b":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"df86184512b","visdat":{"df86184512b":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I created a plot because the assignment requested for one however, I don&#39;t think it makes sense as all the other indicators show that they can predict crime according to the anlaysis</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(bos,<span class="fu">aes</span>(statistic,estimate, <span class="at">color =</span> term))<span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p1)</span></code></pre></div>
+<div id="htmlwidget-1dfb31f26ca810916c82" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1dfb31f26ca810916c82">{"x":{"data":[{"x":[10.6747458813448,-3.09300821443869,9.45302119836252,-8.07299180584545,6.08766865042672,-4.00208420348085,13.0056107206188,-5.15734855024822,-10.4538746187593,-5.60705735131096,11.6091571935607,-4.80071818349351,12.6275664859523],"y":[4.45369375508638,-2.0637426063278,3.74444683651805,-13.7198823099743,20.4818041777924,-3.77790631796827,9.49926164655728,-2.28715944831038,-8.52836909306913,-17.6469334724482,16.5535292242067,-3.33053805714505,11.7965357502219],"text":["statistic:  10.674746<br />estimate:   4.45369376<br />term: (Intercept)","statistic:  -3.093008<br />estimate:  -2.06374261<br />term: (Intercept)","statistic:   9.453021<br />estimate:   3.74444684<br />term: (Intercept)","statistic:  -8.072992<br />estimate: -13.71988231<br />term: (Intercept)","statistic:   6.087669<br />estimate:  20.48180418<br />term: (Intercept)","statistic:  -4.002084<br />estimate:  -3.77790632<br />term: (Intercept)","statistic:  13.005611<br />estimate:   9.49926165<br />term: (Intercept)","statistic:  -5.157349<br />estimate:  -2.28715945<br />term: (Intercept)","statistic: -10.453875<br />estimate:  -8.52836909<br />term: (Intercept)","statistic:  -5.607057<br />estimate: -17.64693347<br />term: (Intercept)","statistic:  11.609157<br />estimate:  16.55352922<br />term: (Intercept)","statistic:  -4.800718<br />estimate:  -3.33053806<br />term: (Intercept)","statistic:  12.627566<br />estimate:  11.79653575<br />term: (Intercept)"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"(Intercept)","legendgroup":"(Intercept)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[8.46282468262108],"y":[0.107786227139533],"text":"statistic:   8.462825<br />estimate:   0.10778623<br />term: age","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(227,137,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(227,137,0,1)"}},"hoveron":"points","name":"age","legendgroup":"age","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-9.36695058956449],"y":[-0.0362796405673307],"text":"statistic:  -9.366951<br />estimate:  -0.03627964<br />term: black","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(196,154,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(196,154,0,1)"}},"hoveron":"points","name":"black","legendgroup":"black","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-1.25672737007522],"y":[-1.89277655080378],"text":"statistic:  -1.256727<br />estimate:  -1.89277655<br />term: chas","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(153,168,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(153,168,0,1)"}},"hoveron":"points","name":"chas","legendgroup":"chas","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-9.21345807307416],"y":[-1.5509016824101],"text":"statistic:  -9.213458<br />estimate:  -1.55090168<br />term: dis","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(83,180,0,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(83,180,0,1)"}},"hoveron":"points","name":"dis","legendgroup":"dis","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[9.99084765656433],"y":[0.509776331104228],"text":"statistic:   9.990848<br />estimate:   0.50977633<br />term: indus","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,188,86,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,188,86,1)"}},"hoveron":"points","name":"indus","legendgroup":"indus","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[11.490653795623],"y":[0.548804782062398],"text":"statistic:  11.490654<br />estimate:   0.54880478<br />term: lstat","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,192,148,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,192,148,1)"}},"hoveron":"points","name":"lstat","legendgroup":"lstat","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-9.45971007788721],"y":[-0.363159922257603],"text":"statistic:  -9.459710<br />estimate:  -0.36315992<br />term: medv","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)"}},"hoveron":"points","name":"medv","legendgroup":"medv","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[10.4189888721733],"y":[31.2485312011229],"text":"statistic:  10.418989<br />estimate:  31.24853120<br />term: nox","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,182,235,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,182,235,1)"}},"hoveron":"points","name":"nox","legendgroup":"nox","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6.80143023552016],"y":[1.15198278707059],"text":"statistic:   6.801430<br />estimate:   1.15198279<br />term: ptratio","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(6,164,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(6,164,255,1)"}},"hoveron":"points","name":"ptratio","legendgroup":"ptratio","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[17.998199143111],"y":[0.617910927327201],"text":"statistic:  17.998199<br />estimate:   0.61791093<br />term: rad","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(165,138,255,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(165,138,255,1)"}},"hoveron":"points","name":"rad","legendgroup":"rad","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-5.04481948476145],"y":[-2.68405122411395],"text":"statistic:  -5.044819<br />estimate:  -2.68405122<br />term: rm","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(223,112,248,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(223,112,248,1)"}},"hoveron":"points","name":"rm","legendgroup":"rm","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[16.0993880125883],"y":[0.0297422528227653],"text":"statistic:  16.099388<br />estimate:   0.02974225<br />term: tax","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(251,97,215,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(251,97,215,1)"}},"hoveron":"points","name":"tax","legendgroup":"tax","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-4.59377647730262],"y":[-0.073934977404123],"text":"statistic:  -4.593776<br />estimate:  -0.07393498<br />term: zn","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(255,102,168,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(255,102,168,1)"}},"hoveron":"points","name":"zn","legendgroup":"zn","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-11.8764783068528,19.4208028312045],"tickmode":"array","ticktext":["-10","0","10"],"tickvals":[-10,0,10],"categoryorder":"array","categoryarray":["-10","0","10"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"statistic","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-20.0917067061267,33.6933044348014],"tickmode":"array","ticktext":["-20","-10","0","10","20","30"],"tickvals":[-20,-10,0,10,20,30],"categoryorder":"array","categoryarray":["-20","-10","0","10","20","30"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"estimate","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"term","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"df834a36ac6":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"df834a36ac6","visdat":{"df834a36ac6":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(bos)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this did not make sense.</span></span></code></pre></div>
 </div>
 
 

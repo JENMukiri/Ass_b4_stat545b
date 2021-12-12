@@ -1,15 +1,18 @@
 ---
-title: "Option A"
+title: "Option A: Strings and functional programming in R"
 ---
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This is assignment B-4 to complete the stat 545B class
+This is my deliverable for assignment B-4. My tasks are to:
 
-Before starting any analysis it is important to download packages 
+0. Submit a Tidy repository on github (25 points)
+1. Complete Exercise 1 (37.5 points)
+2. Complete Exercise 3 (37.5 points)
+
+Before starting on this task, I first need to download and load the appropriate packages
 
 ```{r}
 #packages needed
@@ -17,35 +20,39 @@ library(janeaustenr)
 library(ggplot2)
 library(plotly)
 library(hpackedbubble)
-library(webshot)
+library(webshot) #this package is needed with hpackadbubble
 library(tidyverse)
-#this package needs rJava so make sure you have installed this pacakge
-library(qdap)
+library(qdap)#this package needs rJava so make sure you have installed this package
+library(tm)
 library(kableExtra)
-library(ggiraphExtra)
+library(MASS)
 ```
 
 ## Exercise 1 (37.5 points)
 
-Take a Jane Austen book contained in the janeaustenr package, 
+For this exercises I need to use the  janeaustenr package and make a plot with the most common words in the book removing “stop words” of your choosing (words like “the”, “a”, etc.)
 
-Make a plot of the most common words in the book, removing “stop words” of your choosing (words like “the”, “a”, etc.) or stopwords from a pre-defined source, like the stopwords package or tidytext::stop_words.
+For this exercise I decided to look at all the books and not just one.
 
-If you use any resources for helping you remove stopwords. name the source and link to it.
+I then mapped through the books using the freq_terms function from the [qdap](https://github.com/trinker/qdap) package. This making the code more efficient and clean.
 
+I generated an interactive table and a bubble plot for the user to have a look at all the common words,removing all stopwords using the [tm](https://www.rdocumentation.org/packages/tm/versions/0.7-8) package that have at least 5 characters and appear 10 times in each book.
+
+The table and bubble plot are interactive. The bubble plot groups the words per book and these appear in circles/bubbles and the different colors reprsent the different books.
 
 ```{r}
+#load the books from the janeaustenrpackage and create an object know as df
 df <- janeaustenr::austen_books() %>% 
-  nest(data = text) %>% 
+  nest(data = text) %>% #nest data to allow for looping
   mutate(freq = map(data, 
                     ~ qdap::freq_terms(.x$text, 10,
-                                       at.least = 5,                                        tm::stopwords("english"))))
+                      at.least = 5, tm::stopwords("english")))) # mapping the text list through the freq_terms function, looking for words that were 5 characters that was used at least 10 times that did not include "English" stopwords, these were removed tm package
 
 df1 <- df %>%
-  dplyr::select(-data) %>% # assuming you don't need this column any longer
+  dplyr::select(-data) %>% # removing column
   unnest(freq)
-df1 
 
+#interactive table using kableExtra package
 kbl1 <- kbl(df1) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))%>%
   scroll_box(width = "500px", height = "500px")
@@ -54,6 +61,7 @@ kbl1
 ```
 
 ```{r}
+## this was from the hpackedbubble package using the dataframe from the first section to create an interactive display of results
 bubplot <- hpackedbubble(df1$book, df1$WORD, df1$FREQ,
               title = "Common words in Jane Austens books",
               pointFormat = "<b>{point.name}:</b> {point.y} words<sub>",
@@ -62,7 +70,7 @@ bubplot <- hpackedbubble(df1$book, df1$WORD, df1$FREQ,
               packedbubbleMaxSize = "300%",
               theme = "sunset",
               packedbubbleZMin = 0,
-              packedbubbleZmax = 10000, split = 0,
+              packedbubbleZmax = 3000, split = 1,
               gravitational = 0.02,
               parentNodeLimit = 1,
               dragBetweenSeries = 0,
@@ -70,19 +78,47 @@ bubplot <- hpackedbubble(df1$book, df1$WORD, df1$FREQ,
 
 bubplot
 ```
-
-
-## Exercise 2  (37.5 points)
-
-For this exercise, you’ll be evaluating a model that’s fit separately for each group in some dataset. You should fit these models with some question in mind.
+The code chunk below gives a longer way of doing the same analysis if the use of stringr needed to be demonstrated.It is heavier and does slow R when running.However produces similar results
 
 ```{r}
-library(MASS)
 
+#tidy_books <- austen_books() %>%
+#  group_by(book) %>%
+#  mutate(
+#    linenumber = row_number(),
+#    chapter = cumsum(str_detect(text, 
+#                               regex("^chapter [\\divxlc]", 
+#                                      ignore_case = TRUE)))) %>%
+#  ungroup() %>%
+#  unnest_tokens(word, text)
+
+#tidy_books %>%
+#  filter(str_count(word) >= 5) %>%  # similar to the at.least = 5
+#  anti_join(stop_words) %>%   # similar to tm::stopwords()
+#  group_by(book) %>% 
+#  count(word) %>% 
+ # arrange(book, desc(n))
+
+```
+
+## Exercise 3  (37.5 points)
+
+For this exercise,I was evaluating model a that’s fit separately for each group in the Boston data set found in the MASS package. 
+
+The question I I had in mind is:
+
+1.To fit a simple linear regression model `crim` against the other predictors in the data set
+
+From the results below some of the key take aways are:
+ -varaibles are predictors for crime in Boston apart from char variable, according to analysis.
+
+```{r}
+#creating a new list column with the column model added to the tibble 
 bos <- tibble(var = names(Boston)[-1]) %>% 
   mutate(lm = map(var, ~lm(paste("crim ~",.), data = Boston) %>% tidy)) %>%
-  unnest() 
+  unnest(lm) 
 
+#interactive tablle to show the results from the liner regression
 
 bos1<- kbl(bos) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))%>%
@@ -93,6 +129,8 @@ bos1
 
 
 ```{r}
+# I created a plot because the assignment requested for one however, I don't think it makes sense as all the other indicators show that they can predict crime according to the anlaysis
+
 p1 <- ggplot(bos,aes(statistic,estimate, color = term))+
   geom_point()+
   theme_classic()
@@ -100,6 +138,8 @@ p1 <- ggplot(bos,aes(statistic,estimate, color = term))+
 
 ggplotly(p1)
 
-```
 
+#plot(bos)
+# this did not make sense.
+```
 
