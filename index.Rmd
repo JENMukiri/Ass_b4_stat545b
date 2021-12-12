@@ -7,13 +7,9 @@ title: "Option A"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Exercise 1 (37.5 points)
+This is assignment B-4 to complete the stat 545B class
 
-Take a Jane Austen book contained in the janeaustenr package, 
-
-Make a plot of the most common words in the book, removing “stop words” of your choosing (words like “the”, “a”, etc.) or stopwords from a pre-defined source, like the stopwords package or tidytext::stop_words.
-
-If you use any resources for helping you remove stopwords. name the source and link to it.
+Before starting any analysis it is important to download packages 
 
 ```{r}
 #packages needed
@@ -23,13 +19,22 @@ library(plotly)
 library(hpackedbubble)
 library(webshot)
 library(tidyverse)
+#this package needs rJava so make sure you have installed this pacakge
 library(qdap)
+library(kableExtra)
+library(ggiraphExtra)
 ```
 
+## Exercise 1 (37.5 points)
+
+Take a Jane Austen book contained in the janeaustenr package, 
+
+Make a plot of the most common words in the book, removing “stop words” of your choosing (words like “the”, “a”, etc.) or stopwords from a pre-defined source, like the stopwords package or tidytext::stop_words.
+
+If you use any resources for helping you remove stopwords. name the source and link to it.
 
 
 ```{r}
-
 df <- janeaustenr::austen_books() %>% 
   nest(data = text) %>% 
   mutate(freq = map(data, 
@@ -37,19 +42,27 @@ df <- janeaustenr::austen_books() %>%
                                        at.least = 5,                                        tm::stopwords("english"))))
 
 df1 <- df %>%
-  select(-data) %>% # assuming you don't need this column any longer
+  dplyr::select(-data) %>% # assuming you don't need this column any longer
   unnest(freq)
+df1 
 
+kbl1 <- kbl(df1) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))%>%
+  scroll_box(width = "500px", height = "500px")
 
+kbl1
+```
+
+```{r}
 bubplot <- hpackedbubble(df1$book, df1$WORD, df1$FREQ,
               title = "Common words in Jane Austens books",
               pointFormat = "<b>{point.name}:</b> {point.y} words<sub>",
               dataLabelsFilter = 100,
-              packedbubbleMinSize = "50%",
+              packedbubbleMinSize = "10%",
               packedbubbleMaxSize = "300%",
               theme = "sunset",
               packedbubbleZMin = 0,
-              packedbubbleZmax = 10000, split = 1,
+              packedbubbleZmax = 10000, split = 0,
               gravitational = 0.02,
               parentNodeLimit = 1,
               dragBetweenSeries = 0,
@@ -58,5 +71,35 @@ bubplot <- hpackedbubble(df1$book, df1$WORD, df1$FREQ,
 bubplot
 ```
 
+
+## Exercise 2  (37.5 points)
+
+For this exercise, you’ll be evaluating a model that’s fit separately for each group in some dataset. You should fit these models with some question in mind.
+
+```{r}
+library(MASS)
+
+bos <- tibble(var = names(Boston)[-1]) %>% 
+  mutate(lm = map(var, ~lm(paste("crim ~",.), data = Boston) %>% tidy)) %>%
+  unnest() 
+
+
+bos1<- kbl(bos) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))%>%
+  scroll_box(width = "500px", height = "500px")
+
+bos1
+```
+
+
+```{r}
+p1 <- ggplot(bos,aes(statistic,estimate, color = term))+
+  geom_point()+
+  theme_classic()
+
+
+ggplotly(p1)
+
+```
 
 
