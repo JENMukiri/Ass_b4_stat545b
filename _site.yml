@@ -1,7 +1,13 @@
 name: "Stat 545B Assignment 4"
+author: "Jessica Mukiri" 
+output_dir: "."
 navbar:
-  title: "Option A"
+  title: "STAT 545B"
   left:
     - text: "Stat 545B Assignment 4"
       href: index.html
-output_dir: "."
+output:
+  html_document:
+    theme: yeti
+    highlight: zenburn
+
